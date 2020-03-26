@@ -1,0 +1,17 @@
+{% extends "header.html" %}
+
+{% block title %}
+	{{ modelName }}_index
+{% endblock %}
+
+{% block content %}
+<div  style="margin-left: 200px; margin-bottom: 100px;">
+	<h1>{{ modelName }} implementation</h1>
+	<form method="post" enctype="multipart/form-data" method="POST" action={{ actionName }}>
+		{% csrf_token %}
+		<input type="file" name="myfile">
+		<input type="hidden" name="modelName" value={{ modelName }}>
+		<button type="submit">Upload</button>
+	</form>
+</div>
+{% endblock %}
