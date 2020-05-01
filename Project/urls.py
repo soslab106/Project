@@ -22,14 +22,18 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('yolo/', renderYolo),
     path('postCnnModels/', postCnnModels),
     # path('postImgNet/', postImgNet),
     path('', renderIndex),
     path('VGG16/', renderVgg),
-    path('ResNet101/', renderResNet),
-    path('Facenet/', renderFacenet),
+    path('resNet101/', renderResNet),
+    path('facenet/', renderFacenet),
+    path('facenet/realtime/', renderRealtime),
     # path('test/', renderTest),
     path('upload/', include('ai.urls')),
+    path('login/', LoginPage.as_view(), name='login'),
+    path('register/', register,  name='register'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
