@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .CNN.imgnet import recogImgnet
 from .CNN.yolo import *
 from .CNN.facenet import *
+from .CNN.face_recog import *
 from django.core.files.storage import FileSystemStorage
 import os
 from rest_framework.parsers import FileUploadParser
@@ -16,6 +17,7 @@ from django.contrib.auth.forms import UserCreationForm
 import base64
 from PIL import Image
 import io
+from django.http import HttpResponse
 
 # Create your views here.
 def renderIndex(request):
@@ -33,8 +35,8 @@ def renderResNet(request):
 def renderFacenet(request):
     return render(request, 'input.html', {'modelName':'Facenet', 'actionName':'/postCnnModels/'})
 
-def renderRealtime(request):
-    return render(request, 'input.html', {'modelName':'RealtimeDetec', 'actionName':'/postCnnModels/'})
+def renderFaceRecog(request):
+    return render(request, 'input_2.html', {'modelName':'FaceRecognition', 'actionName':'/face_recog_test/'})
 
 def postCnnModels(request):
     if request.method == 'POST' and request.FILES['file']:
@@ -54,7 +56,22 @@ def postCnnModels(request):
             result = imageFaceDetec(uploaded_file_url, myfile)
         return result
 
+def face_recog_test(request):
+    if request.method == 'POST':
+        file1 = request.FILES['file1']
+        file2 = request.FILES['file2']
+        fileR = request.FILES['fileR']
+        fs = FileSystemStorage()
+        file1name = fs.save(file1.name, file1)
+        file2name = fs.save(file2.name, file2)
+        fileRname = fs.save(fileR.name, fileR)
+        learn_file_url = [fs.url(file1name), fs.url(file2name)]
+        recog_file_url = fs.url(fileRname)
+        nameList = [request.POST['name1'], request.POST['name2']]
+        result = face_recognition_py(learn_file_url, nameList, recog_file_url)
 
+        with open(result, "rb") as f:
+            return HttpResponse(f.read(), content_type="image/jpg")
 
 class FileView(APIView):
     parser_class = [FileUploadParser]

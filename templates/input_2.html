@@ -1,0 +1,25 @@
+{% extends "header.html" %}
+
+{% block title %}
+	{{ modelName }}_index
+{% endblock %}
+
+{% block content %}
+<div  style="margin-left: 200px; margin-bottom: 100px;">
+	<h1>{{ modelName }} implementation</h1>
+	<form method="post" enctype="multipart/form-data" method="POST" action={{ actionName }}>
+        {% csrf_token %}
+        學習圖片:
+        <br>
+        <input type="file" id='input1' name="file1"> <input type="text" id='name' name="name1">name1</input>
+        <br>
+        <input type="file" id='input2' name="file2"> <input type="text" id='name2' name="name2">name2</input>
+        <br>
+        辨識圖片:
+        <input type="file" id='inputR' name="fileR">
+        <input type="hidden" name="modelName" value={{ modelName }}>
+        <br>
+		<button type="submit">Upload</button>
+	</form>
+</div>
+{% endblock %}

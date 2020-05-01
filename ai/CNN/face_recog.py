@@ -4,42 +4,25 @@ import face_recognition
 import numpy as np
 from PIL import Image, ImageDraw
 from IPython.display import display
+import os
 
 # This is an example of running face recognition on a single image
 # and drawing a box around each person that was identified.
-def face_recognition_learn(learnImgpath, nameList, RecogImgpath):
-''' 
-    # Load a sample picture and learn how to recognize it.
-    obama_image = face_recognition.load_image_file("obama.jpg")
-    obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
-
-    # Load a second sample picture and learn how to recognize it.
-    biden_image = face_recognition.load_image_file("biden.jpg")
-    biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
-
-    # Create arrays of known face encodings and their names
-    known_face_encodings = [
-        obama_face_encoding,
-        biden_face_encoding
-    ]
-    known_face_names = [
-        "Barack Obama",
-        "Joe Biden"
-    ]
-'''
+def face_recognition_py(learnImgpath, nameList, recogImgpath):
     known_face_encodings = []
     known_face_names = nameList
 
     for i in learnImgpath:
+        i = os.path.join('.'+i)
         image = face_recognition.load_image_file(i)
         face_encoding = face_recognition.face_encodings(image)[0]
-
         known_face_encodings.append(face_encoding)
 
     print('Learned encoding for', len(known_face_encodings), 'images.')
 
     # Load an image with an unknown face
-    unknown_image = face_recognition.load_image_file("two_people.jpg")
+    recogImgpath = os.path.join('.'+recogImgpath)
+    unknown_image = face_recognition.load_image_file(recogImgpath)
 
     # Find all the faces and face encodings in the unknown image
     face_locations = face_recognition.face_locations(unknown_image)
@@ -76,5 +59,7 @@ def face_recognition_learn(learnImgpath, nameList, RecogImgpath):
     # Remove the drawing library from memory as per the Pillow docs
     del draw
 
-    # Display the resulting image
-    display(pil_image)
+    # Return the resulting image
+    pil_image.save(recogImgpath)
+    recogImgpath = os.path.join(''+recogImgpath)
+    return recogImgpath
