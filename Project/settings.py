@@ -25,9 +25,11 @@ SECRET_KEY = 'f&tvt^s1gwokbmotj7*0z9nx^w0hbxwngrr72il^8impg-j_jf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['140.119.19.99','127.0.0.1']
 
-
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+}
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,21 +38,27 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'corsheaders',
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'ai',
     'text',
     'rest_framework',
+    'rest_framework.authtoken',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     # 把需要的第三方登入都放這裡
     'allauth.socialaccount.providers.google', 
+    'djoser',
 ]
+
+SOCIAL_GOOGLE_CLIENT_ID = '840585485839-tmkn6oo6t5bimjtjqjtm1eg4tb8vgo6u.apps.googleusercontent.com'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -78,6 +86,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Project.wsgi.application'
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = [
+    'http://140.119.19.99:4000'
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -143,9 +155,34 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#    ),
+# }
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+}
 
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#TLS Port
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'xxxx'
+#Application key
+EMAIL_HOST_PASSWORD = 'xxxx'
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8000",
+]

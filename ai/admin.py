@@ -5,5 +5,6 @@ from .models import *
 class fileAdmin(admin.ModelAdmin):
     list_display = ('id', 'file')
     ordering = ('id',)
-    
+
+
 admin.site.register(File, fileAdmin)
