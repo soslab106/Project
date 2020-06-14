@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from keras.applications.vgg16 import VGG16
-from keras.applications.resnet import ResNet101
+# from keras.applications.resnet import ResNet101
+from keras.applications.resnet50 import ResNet50
 from keras.preprocessing import image
 from keras.applications.vgg16 import preprocess_input, decode_predictions
-from keras.applications.resnet import preprocess_input, decode_predictions
+from keras.applications.resnet50 import preprocess_input, decode_predictions
 import numpy as np
 from django.core.files.storage import FileSystemStorage
 import os
@@ -17,8 +18,8 @@ def recogImgnet(img_path, modelName):
 
     if modelName == 'VGG16':
         model = VGG16(weights='imagenet', include_top=True) 
-    elif modelName == 'ResNet101':
-        model = ResNet101(weights='imagenet', include_top=True)
+    elif modelName == 'ResNet50':
+        model = ResNet50(weights='imagenet')
 
     # Input：要辨識的影像
     # D:\106\Project\media\tiger.jpg

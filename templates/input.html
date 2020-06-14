@@ -9,7 +9,7 @@
 	<h1>{{ modelName }} implementation</h1>
 	<form method="post" enctype="multipart/form-data" method="POST" action={{ actionName }}>
 		{% csrf_token %}
-		<input type="file" name="myfile">
+		<input type="file" name="file">
 		<input type="hidden" name="modelName" value={{ modelName }}>
 		<button type="submit">Upload</button>
 	</form>

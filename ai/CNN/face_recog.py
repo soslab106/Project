@@ -2,13 +2,13 @@ from PIL import Image, ImageDraw
 from IPython.display import display
 import face_recognition
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from IPython.display import display
 import os
 
 # This is an example of running face recognition on a single image
 # and drawing a box around each person that was identified.
-def face_recognition_py(learnImgpath, nameList, recogImgpath):
+def FaceRecognition(learnImgpath, nameList, recogImgpath):
     known_face_encodings = []
     known_face_names = nameList
 
@@ -53,7 +53,8 @@ def face_recognition_py(learnImgpath, nameList, recogImgpath):
         # Draw a label with a name below the face
         text_width, text_height = draw.textsize(name)
         draw.rectangle(((left, bottom - text_height - 10), (right, bottom)), fill=(0, 0, 255), outline=(0, 0, 255))
-        draw.text((left + 6, bottom - text_height - 5), name, fill=(255, 255, 255, 255))
+        fontsize = 16
+        draw.text((left + 6, bottom - text_height - 5), name, fill=(255, 255, 255, 255), font=ImageFont.truetype('arial.ttf', fontsize))
 
 
     # Remove the drawing library from memory as per the Pillow docs
@@ -61,5 +62,4 @@ def face_recognition_py(learnImgpath, nameList, recogImgpath):
 
     # Return the resulting image
     pil_image.save(recogImgpath)
-    recogImgpath = os.path.join(''+recogImgpath)
     return recogImgpath
