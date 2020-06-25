@@ -1,3 +1,4 @@
+# coding=UTF-8
 from PIL import Image, ImageDraw
 from IPython.display import display
 import face_recognition

@@ -25,7 +25,7 @@ SECRET_KEY = 'f&tvt^s1gwokbmotj7*0z9nx^w0hbxwngrr72il^8impg-j_jf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['140.119.19.99','127.0.0.1']
+ALLOWED_HOSTS = ['*'] 
 
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
@@ -88,7 +88,9 @@ WSGI_APPLICATION = 'Project.wsgi.application'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-    'http://140.119.19.99:4000'
+    'http://140.119.19.99:4000',
+        "http://140.119.19.99:8000",
+    "http://140.119.19.99:8080",
 ]
 
 # Database
@@ -183,6 +185,3 @@ EMAIL_HOST_USER = 'xxxx'
 #Application key
 EMAIL_HOST_PASSWORD = 'xxxx'
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8000",
-]

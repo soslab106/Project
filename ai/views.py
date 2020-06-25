@@ -22,6 +22,7 @@ import base64
 from PIL import Image
 import io
 from datauri import DataURI
+from django.conf import settings 
 
 from django.http import HttpResponse
 from django.views.generic.edit import FormView
@@ -129,16 +130,19 @@ class TestUploadView(APIView):
         print(test_list)
         fs = FileSystemStorage()
         train_list_url = []
+        namelist = []
         
         for img in train_list:
             imgname = fs.save(img.name, img)
             train_list_url.append(fs.url(imgname))
+            namelist.append(img.name.split('.')[0])
         imgname = fs.save(test_list.name, test_list)
         test_list_url = fs.url(imgname)
 
-        namelist = request.POST['name'] #訓練圖片的人名
+        #namelist = request.POST['name'] #訓練圖片的人名
         print(namelist)
-        name_list = namelist.split(',')
+        #name_list = namelist.split(',')
+        name_list = namelist
         result = FaceRecognition(train_list_url, name_list, test_list_url)
         result = DataURI.from_file(result)
         return Response({'result':result}, status=status.HTTP_201_CREATED)
