@@ -1,3 +1,7 @@
 media
 
 ai/CNN/src
+
+Project/__pycache__
+
+ai/__pycache__
