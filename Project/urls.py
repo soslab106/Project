@@ -47,6 +47,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.social.urls')),
+    path('users/', UserList.as_view()),
     #path('googleLogin/', include('ai.urls'))
-
+    path('current_user/', current_user),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
