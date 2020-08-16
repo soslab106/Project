@@ -54,8 +54,7 @@ def FaceRecognition(learnImgpath, nameList, recogImgpath):
         # Draw a label with a name below the face
         text_width, text_height = draw.textsize(name)
         draw.rectangle(((left, bottom - text_height - 10), (right, bottom)), fill=(0, 0, 255), outline=(0, 0, 255))
-        fontsize = 16
-        draw.text((left + 6, bottom - text_height - 5), name, fill=(255, 255, 255, 255), font=ImageFont.truetype('arial.ttf', fontsize))
+        draw.text((left + 6, bottom - text_height - 5), name, fill=(255, 255, 255, 255))
 
 
     # Remove the drawing library from memory as per the Pillow docs
