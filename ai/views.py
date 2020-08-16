@@ -3,6 +3,7 @@ from .CNN.imgnet import recogImgnet
 from .CNN.yolo import *
 from .CNN.facenet import *
 from .CNN.face_recog import *
+from .CycleGAN.model import *
 from django.core.files.storage import FileSystemStorage
 import os
 from rest_framework.parsers import FileUploadParser
@@ -89,12 +90,30 @@ def postCnnModels(request):
         elif modelName == 'Facenet':
             result = imageFaceDetec(uploaded_file_url, myfile)
         return result
+
+def postCycleGAN(request):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    if request.method == 'POST' and request.FILES['file']:
+        dataset = request.POST['dataset']
+        direction = 'testA' if request.POST['direction']=='AtoB' else 'testB'
+        myfile = request.FILES['file']
+        fs = FileSystemStorage(location=f'./ai/CycleGAN/datasets/{dataset}/{direction}')
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+
+        tfconfig = tf.ConfigProto(allow_soft_placement=True, reuse=True)
+        tfconfig.gpu_options.allow_growth = True
+        with tf.Session(config=tfconfig) as sess:
+            model = cyclegan(sess)
+            result_path = model.test()
+            return result_path
+        
+        
  
 
 class FileView(APIView):
     parser_class = [FileUploadParser]
     #permission_classes = (IsAuthenticated,)
-
 
     def get_object(self, pk):
         try:
@@ -113,9 +132,12 @@ class FileView(APIView):
 
         if file_serializer.is_valid():
             file_serializer.save()
-            result = postCnnModels(request)
-            if request.POST['modelName']=='YOLOv3':
-                result = DataURI.from_file(os.path.join(result))
+            if request.POST['modelName']=='cycleGAN':
+                result = postCycleGAN(request)
+            else:
+                result = postCnnModels(request)
+                if request.POST['modelName']=='YOLOv3':
+                    result = DataURI.from_file(os.path.join(result))
             return Response({'result':result}, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -146,11 +168,10 @@ def register(request):
 
 class TestUploadView(APIView):
     parser_class = (FileUploadParser, )
-    #permission_classes = (IsAuthenticated,)
     queryset = File.objects.all()
 
     def post(self, request, *args, **kwargs):
-
+        
         train_list = request.FILES.getlist('train') #訓練的圖片陣列
         print(train_list)
         test_list = request.FILES['test'] #偵測圖片
@@ -166,9 +187,7 @@ class TestUploadView(APIView):
         imgname = fs.save(test_list.name, test_list)
         test_list_url = fs.url(imgname)
 
-        #namelist = request.POST['name'] #訓練圖片的人名
         print(namelist)
-        #name_list = namelist.split(',')
         name_list = namelist
         result = FaceRecognition(train_list_url, name_list, test_list_url)
         result = DataURI.from_file(result)
@@ -180,13 +199,3 @@ def get_tokens_for_user(user):
         'refresh': str(refresh),
         'access': str(refresh.access_token),
     }
-# class GoogleLogin(TokenObtainPairView):
-#     permission_classes = (AllowAny, ) # AllowAny for login
-#     serializer_class = SocialLoginSerializer
-#     def post(self, request):
-#         serializer = self.get_serializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             user = serializer.save()
-#             return Response(get_tokens_for_user(user))
-#         else:
-#             raise ValueError('Not serializable')
