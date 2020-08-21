@@ -1,5 +1,9 @@
 from rest_framework import serializers
+<<<<<<< HEAD
 from .models import File ,FileModel
+=======
+from .models import File, FileModel #, FaceRecFile
+>>>>>>> 960b121867e6d75335b3fdb70d8d35c306a2bd4c
 from django.contrib.auth.models import User
 from rest_framework_jwt.settings import api_settings
 
@@ -41,7 +45,10 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         model = User
         fields = ('token', 'username', 'password')
 
+<<<<<<< HEAD
 class ganSerializer(serializers.ModelSerializer):
     class Meta:
         model = FileModel
         fields = "__all__"
+=======
+>>>>>>> 960b121867e6d75335b3fdb70d8d35c306a2bd4c
