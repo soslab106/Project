@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.FileView.as_view()),
     path('<int:pk>/', views.FileView.as_view()),
     path('multi/', views.TestUploadView.as_view()),
+    path('cycleGAN/', views.ganFileView.as_view()),
     # path('token/obtain/', GoogleLogin.as_view()),
     # path('token/refresh/', jwt_views.TokenRefreshView.as_view()), name='token_refresh'),
 ]

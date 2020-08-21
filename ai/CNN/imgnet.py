@@ -12,6 +12,9 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from PIL import Image
 from keras import backend as K
+from ai.gpu_solve import *
+gpu_solve()
+
 
 def recogImgnet(img_path, modelName):
     K.clear_session()

@@ -28,7 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('yolo/', renderYolo),
-    path('postCnnModels/', postCnnModels),
+    # path('postCnnModels/', postCnnModels),
     # path('postImgNet/', postImgNet),
     path('', renderIndex),
     path('VGG16/', renderVgg),
