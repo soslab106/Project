@@ -1,9 +1,12 @@
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_eager_execution()
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from IPython.display import display
 from seaborn import color_palette
 import cv2
+from ai.gpu_solve import *
+gpu_solve()
 
 _BATCH_NORM_DECAY = 0.9
 _BATCH_NORM_EPSILON = 1e-05

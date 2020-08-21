@@ -3,7 +3,11 @@ from .CNN.imgnet import recogImgnet
 from .CNN.yolo import *
 from .CNN.facenet import *
 from .CNN.face_recog import *
+<<<<<<< HEAD
+from .cycleGAN.inference import test
+=======
 from .CycleGAN.model import *
+>>>>>>> 960b121867e6d75335b3fdb70d8d35c306a2bd4c
 from django.core.files.storage import FileSystemStorage
 import os
 from rest_framework.parsers import FileUploadParser
@@ -22,6 +26,7 @@ from django.contrib.auth.forms import UserCreationForm
 import base64
 from PIL import Image
 import io
+import random
 from datauri import DataURI
 from django.conf import settings 
 from rest_framework.decorators import api_view
@@ -58,21 +63,21 @@ def renderIndex(request):
     return render(request, 'index.html')
 
 def renderYolo(request):
-    return render(request, 'input.html', {'modelName':'YOLOv3', 'actionName':'/postCnnModels/'})
+    return render(request, 'input.html', {'modelName':'YOLOv3', 'actionName':'/postModels/'})
 
 def renderVgg(request):
-    return render(request, 'input.html', {'modelName':'VGG16', 'actionName':'/postCnnModels/'})
+    return render(request, 'input.html', {'modelName':'VGG16', 'actionName':'/postModels/'})
 
 def renderResNet(request):
-    return render(request, 'input.html', {'modelName':'ResNet101', 'actionName':'/postCnnModels/'})
+    return render(request, 'input.html', {'modelName':'ResNet101', 'actionName':'/postModels/'})
 
 def renderFacenet(request):
-    return render(request, 'input.html', {'modelName':'Facenet', 'actionName':'/postCnnModels/'})
+    return render(request, 'input.html', {'modelName':'Facenet', 'actionName':'/postModels/'})
 
 def renderFaceRecog(request):
     return render(request, 'input_2.html', {'modelName':'FaceRecognition', 'actionName':'/TestUploadFile/'})
 
-def postCnnModels(request):
+def postModels(request):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     if request.method == 'POST' and request.FILES['file']:
         myfile = request.FILES['file']
@@ -85,7 +90,7 @@ def postCnnModels(request):
         elif modelName == 'YOLOv3':
             recog_result = recogYOLOv3(uploaded_file_url)[0]
             MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'media')
-            result = MEDIA_ROOT+'\\{}-recog.jpg'.format(myfile.name[:myfile.name.rfind('.')])
+            result = MEDIA_ROOT+'/{}-recog.jpg'.format(myfile.name[:myfile.name.rfind('.')])
             recog_result.save(result)
         elif modelName == 'Facenet':
             result = imageFaceDetec(uploaded_file_url, myfile)
@@ -132,12 +137,18 @@ class FileView(APIView):
 
         if file_serializer.is_valid():
             file_serializer.save()
+<<<<<<< HEAD
+            result = postModels(request)
+            if request.POST['modelName']=='YOLOv3':
+                result = DataURI.from_file(os.path.join(result))
+=======
             if request.POST['modelName']=='cycleGAN':
                 result = postCycleGAN(request)
             else:
                 result = postCnnModels(request)
                 if request.POST['modelName']=='YOLOv3':
                     result = DataURI.from_file(os.path.join(result))
+>>>>>>> 960b121867e6d75335b3fdb70d8d35c306a2bd4c
             return Response({'result':result}, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -199,3 +210,39 @@ def get_tokens_for_user(user):
         'refresh': str(refresh),
         'access': str(refresh.access_token),
     }
+<<<<<<< HEAD
+
+class ganFileView(APIView):
+    parser_class = (FileUploadParser, )
+    #permission_classes = (IsAuthenticated,)
+    queryset = File.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        file_serializer = ganSerializer(data=request.data)
+
+        if file_serializer.is_valid():
+            filename = file_serializer.save().file.name
+            model = request.POST['model']
+            filename = filename.split('/')[1]
+            print(filename)
+            output = 'output'+str(random.randint(0, 99))
+            test(model, filename, output)
+            result = DataURI.from_file(os.path.join('./GANresult/'+output))
+            return Response({'result':result}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+# class GoogleLogin(TokenObtainPairView):
+#     permission_classes = (AllowAny, ) # AllowAny for login
+#     serializer_class = SocialLoginSerializer
+#     def post(self, request):
+#         serializer = self.get_serializer(data=request.data)
+#         if serializer.is_valid(raise_exception=True):
+#             user = serializer.save()
+#             return Response(get_tokens_for_user(user))
+#         else:
+#             raise ValueError('Not serFLAGS.output
+=======
+>>>>>>> 960b121867e6d75335b3fdb70d8d35c306a2bd4c

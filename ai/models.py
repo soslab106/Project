@@ -7,8 +7,7 @@ class File(models.Model):
         return self.file
 
 class FileModel(models.Model):
-    file = models.ImageField(upload_to='media/face_recognition/' ,blank=False, null=False)
-    date = models.DateTimeField(auto_now_add=True)
+    file = models.ImageField(upload_to='cycleGAN/' ,blank=False, null=False)
     def __str__(self):
         return self.file
 
