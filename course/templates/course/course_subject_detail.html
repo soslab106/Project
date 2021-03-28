@@ -1,0 +1,55 @@
+<!-- 繼承模板 -->
+{% extends "course/course_detail.html" %}
+{% load static %} <!-- 加載靜態文件 -->
+{% load course_tags %}
+<!-- 繼承標題區塊 -->
+{% block title %}
+{{ course.name }}--{{ subject.title }}
+{% endblock %}
+
+<!-- 繼承內容區塊 -->
+{% block nav_detail_active %} {% endblock %}
+{% block nav_subject_active %}active list-group-item-success{% endblock %}
+{% block course_detail %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>{{ subject.title }}</h4>
+        </div>
+        <div class="panel-body">
+            <h5>作業內容:</h5>
+            <div class="subject-content">
+                {{ subject.text }}
+            </div>
+            <p></p>
+            <div class="dead-time">
+                截止日期{{ subject.dead_time }}
+            </div>
+        </div>
+        <div class="panel-footer">
+            {% if date_status is False %}
+                <span style="color: red;">繳交期限已過</span>
+            {% else %}
+                <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    繳交作業
+                  </a>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <form id="homework_form" action="#" method="POST" style="overflow:hidden">
+                            {% csrf_token %}
+                            {% get_homework_form subject as homework_form%}
+                            {% for field in homework_form %}
+                                {% if not field.is_hidden %}
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% endif %}
+                                <p></p>
+                                {{ field }}
+                                <p class="text-danger">{{ field.errors.as_text }}</p>
+                            {% endfor %}
+                            <input type="submit" value="上傳" class="btn btn-primary pull-right">
+                        </form>
+                    </div>
+                  </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

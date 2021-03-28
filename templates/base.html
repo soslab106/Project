@@ -1,0 +1,136 @@
+{% load static %} <!-- 導入 staticfiles -->
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">  <!-- 對應IE瀏覽器 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- 適應響應式設計 -->
+    <!-- 將標題區塊化 -->
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}"> <!-- 導入 css 文件 -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <!-- 導入jquery和bootstrap(jquery必須在前) -->
+    <script type="text/javascript" src="{% static 'jquery-3.5.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    {% block header_extends %}{% endblock %}  <!-- 用於擴展額外 css -->
+
+</head>
+<body>
+    <!-- bootstrap 響應式導航條 -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <!-- 選用寬度填滿頁面的容器 -->
+        <div class="container-fluid">
+            <!-- 導航條主標題 -->
+            <div class="navbar-header" style="margin-left: 4px;">
+                <a class="navbar-brand" href="#">
+                    <img src="/static/favicon-blue.png" width="52" height="43" alt="" style="margin-top:-12px;">
+                </a>
+                <a class="navbar-brand" href="{% url 'home' %}" style="color: rgb(41, 180, 190);">HowAI論壇</a>
+                <!-- 響應式下拉選單 -->
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- 導航條列表-->
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- 選取的列表加入active狀態-->
+                    <li class="{% block nav_home_active %}{% endblock %}">
+                        <a href="{% url 'home' %}">首頁</a>
+                    </li>
+                    <li class="{% block nav_blog_active %}{% endblock %}">
+                        <a href="{% url 'blog_list' %}">論壇區</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if not user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'user_login' %}?from={{ request.get_full_path }}">登入</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'register' %}?from={{ request.get_full_path }}">註冊</a>
+                        </li>
+                    {% else %}
+                        <li class="{% block nav_course_active %}{% endblock %}">
+                            <a href="{% url 'course_list' %}">我的課程</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                {% if user.has_nickname %}
+                                    {{ user.username }}({{ user.get_nickname }}) 
+                                {% else %}
+                                    {{ user.username }}
+                                {% endif %}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'user_info' %}">個人資料</a></li>
+                                <li><a href="{% url 'change_password' %}">修改密碼</a></li>
+                                {% if user.is_staff or user.is_superuser %}
+                                    <li><a href="{% url 'admin:index' %}">後台管理</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'user_logout' %}?from={{ request.get_full_path }}">登出</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    {% block content %}{% endblock %}
+    <!-- Modal -->
+    <div class="modal fade" id="login_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <form id="login_modal_form" action="" method="POST">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">登入</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {% for field in login_modal_form %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                        {% endfor %}
+                        <span id="login_modal_tip" class="text-danger"></span>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">登入</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $("#login_modal_form").submit(function(event){
+                event.preventDefault();
+                $.ajax({
+                    url: '{% url "login_for_modal" %}',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    cache: false,
+                    success: function(data){
+                        if(data['status']=='SUCCESS'){
+                            window.location.reload();
+                        }else{
+                            $('#login_medal_tip').text('帳號或密碼不正確');
+                        }
+                    }
+                });
+            });
+    </script>
+    {% block script_extends %}{% endblock %}
+    
+</body>
+</html>

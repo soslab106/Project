@@ -1,0 +1,34 @@
+<!-- 繼承模板 -->
+{% extends "course/course_detail.html" %}
+{% load static %} <!-- 加載靜態文件 -->
+<!-- 繼承標題區塊 -->
+{% block title %}
+{{ course.name }}--{{ post.title }}
+{% endblock %}
+
+<!-- 繼承內容區塊 -->
+{% block nav_detail_active %} {% endblock %}
+{% block nav_post_active %}active list-group-item-success{% endblock %}
+{% block course_detail %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            課程公告
+        </div>
+        <div class="panel-body">
+            <h4>{{ post.title }}</h4>
+            <div class="post-content">
+                {{ post.content|safe }}
+            </div>
+            <p></p>
+            <div class="dead-time">
+                發布日期: {{ post.created_time }}
+            </div>
+            <div class="post_author">
+                發布人: {{ post.author.get_nickname_or_username }}
+            </div>
+        </div>
+        <div class="panel-footer">
+            
+        </div>
+    </div>
+{% endblock %}

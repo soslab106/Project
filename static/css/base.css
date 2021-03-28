@@ -1,0 +1,31 @@
+* {
+    margin: 0;   /*預設邊界修改為0*/
+    padding: 0;  
+}
+
+body {
+    margin-top: 80px!important;
+    background-color: #f6f8f8;
+}
+
+ul.navbar-right{
+    margin-right: 0;
+}
+
+p.warning{
+    color: red;
+}
+
+.navbar {
+    background-color: white !important;
+    position: sticky;
+  }
+  
+  .nav-link {
+    color: #5f7171 !important;
+  }
+  
+  .dropdown-item:focus {
+    color: black;
+  }
+  

@@ -1,0 +1,29 @@
+h3.home-content {
+    font-size: 222%;
+    text-align: center; /*置中*/
+    margin-top: 4em;
+    margin-bottom: 2em;
+
+}
+
+div#container {
+   margin:0 auto; 
+   height: 20em;
+   min-width: 20em;
+   max-width: 30em;
+}
+
+div.hot-data {
+    text-align: center;
+    margin-top: 2em;
+}
+
+.main-color {
+    color: #29b4be !important;
+}
+
+.secondary-title {
+    font-size: 30px;
+    color: #5f7171;
+    text-align: center;
+}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+HowAI 論壇 | 登入頁面
+{% endblock %}
+
+{% block nav_blog_active %}active{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <!-- 響應式 -->
+            <div class="col-xs-12 col-md-4 col-md-offset-4">
+                <!-- 添加面板 -->
+                {% if not user.is_authenticated %}
+                <div class="panel panel-default">
+                    <!-- 面板標題 -->
+                    <div class="panel-heading">登入</div>
+                    <div class="panel-body">
+                        <!-- 表單 -->
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <!-- 進行表單細部調整 -->
+                            {% for field in login_form %}
+                                <!-- 移除冒號 -->
+                                <label for="{{ field.id_for_label }}">{{field.label}}</label>
+                                {{ field }}
+                                <!-- 錯誤訊息紅字顯示 -->
+                                <p class="text-danger">{{ field.errors.as_text }}</p>
+                            {% endfor %}
+                            <span class="pull-left text-danger">{{ login_form.non_field_errors }}</span>
+                            <div class="clearfix"></div>
+                            <a href="{% url 'forgot_password' %}" class="pull-left">忘記密碼?</a>
+                            <input type="submit" value="登入" class="btn btn-primary pull-right">
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                    <span>已登入，即將跳轉至首頁...</span>
+                    <script type="text/javascript">
+                    setTimeout("window.location.href = '/'", 1500);
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

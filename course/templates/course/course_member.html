@@ -1,0 +1,43 @@
+<!-- 繼承模板 -->
+{% extends "course/course_detail.html" %}
+{% load static %} <!-- 加載靜態文件 -->
+<!-- 繼承標題區塊 -->
+{% block title %}
+{{ course.name }}--通訊錄
+{% endblock %}
+
+<!-- 繼承內容區塊 -->
+{% block nav_detail_active %} {% endblock %}
+{% block nav_member_active %}active list-group-item-success{% endblock %}
+{% block course_detail %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            通訊錄
+        </div>
+        <div class="panel-body">
+            <h4>教師</h4>
+            <hr>
+            <ul class="list-group list-group-fulsh">
+                    <li class="list-group-item">
+                        <p>姓名:{{ course.teacher }}</p>
+                        <p>電子郵件:{{ course.teacher.email }}</p>
+                    </li>
+            </ul>
+            <h4>學生</h4>
+            <hr>
+            <ul class="list-group">
+                {% for p in students %}
+                    <li class="list-group-item">
+                        <p>姓名:{{ p }}</p>
+                        <p>電子郵件:{{ p.email }}</p>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">尚無學生</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="panel-footer">
+            
+        </div>
+    </div>
+{% endblock %}

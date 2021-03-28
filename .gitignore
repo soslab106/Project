@@ -5,3 +5,7 @@ ai/CNN/src
 Project/__pycache__
 
 ai/__pycache__
+
+ai/CNN/tf_model
+
+ai/CNN/face_model

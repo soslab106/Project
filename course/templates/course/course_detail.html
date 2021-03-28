@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+<!-- 加載靜態文件 -->
+{% block titles %}
+    {{ course.name }}
+{% endblock %}
+{% block header_extends %}{% endblock %}
+{% block nav_course_active %}active{% endblock %}
+{% block content %}
+    <div class="container">
+        <dvi class="row">
+            <div class="hidden-xs col-sm-5 col-md-4 col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        功能列表
+                    </div>
+                    <div class="panel-body">
+                        <ul class="nav flex-column">
+                            <li class="nav-item {% block nav_detail_active %}active list-group-item-success{% endblock %}">
+                                <a class="nav-link" href="{% url 'course_detail' course.pk %}">課程資訊</a>
+                            </li>
+                            <li class="nav-item {% block nav_post_active %}{% endblock %}">
+                                <a class="nav-link" href="{% url 'post_list' course.pk %}">課程公告</a>
+                            </li>
+                            <li class="nav-item {% block nav_subject_active %}{% endblock %}">
+                                <a class="nav-link" href="{% url 'course_subject' course.pk %}">課堂作業區</a>
+                            </li>
+                            <li class="nav-item {% block nav_member_active %}{% endblock %}">
+                                <a class="nav-link" href="{% url 'course_member' course.pk %}">通訊錄</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
+                {% block course_detail %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        課程資訊與公告
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                課程名稱:{{ course.name }}
+                            </li>
+                            <li class="list-group-item">
+                                教師:{{ course.teacher.get_nickname_or_username }}
+                            </li>
+                            <li class="list-group-item">
+                                教師電子郵件:{{ course.teacher.email }}
+                            </li>
+                            <li class="list-group-item">
+                                上課時間:{{ course.start_time }} ~ {{ course.end_time}}
+                            </li>
+                            <li class="list-group-item">
+                                上課人數:{{ count }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        
+                    </div>
+                </div>
+                {% endblock %}
+            </div>
+        </dvi>
+    </div>
+{% endblock %}

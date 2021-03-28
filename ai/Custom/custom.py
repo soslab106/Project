@@ -6,11 +6,11 @@ from keras import backend as K
 
 # import tensorflow_datasets as tfds
 
-x = ['C:\Users\soslab\Desktop\songs\song1.jpg','C:\Users\soslab\Desktop\songs\song2.jpg','C:\Users\soslab\Desktop\songs\song3.jpg',
-    'C:\Users\soslab\Desktop\songs\song4.jpg','C:\Users\soslab\Desktop\songs\song5.jpg','C:\Users\soslab\Desktop\songs\song6.jpg'
-    ,'C:\Users\soslab\Desktop\songs\song7.jpg','C:\Users\soslab\Desktop\songs\song8.jpg','C:\Users\soslab\Desktop\songs\song9.jpg'
-    ,'C:\Users\soslab\Desktop\songs\song10.jpg','C:\Users\soslab\Desktop\songs\song11.jpg','C:\Users\soslab\Desktop\songs\song12.jpg'
-    ,'C:\Users\soslab\Desktop\songs\song13.jpg','C:\Users\soslab\Desktop\songs\song14.jpg','C:\Users\soslab\Desktop\songs\song15.jpg']
+x = [os.path.join('~\songs\song1.jpg'),os.path.join('~\songs\song2.jpg'),os.path.join('~\songs\song3.jpg'),
+    os.path.join('~\songs\song4.jpg'),os.path.join('~\songs\song5.jpg'),os.path.join('~\songs\song6.jpg')
+    ,os.path.join('~\songs\song7.jpg'),os.path.join('~\songs\song8.jpg'),os.path.join('~\songs\song9.jpg')
+    ,os.path.join('~\songs\song10.jpg'),os.path.join('~\songs\song11.jpg'),os.path.join('~\songs\song12.jpg')
+    ,os.path.join('~\songs\song13.jpg'),os.path.join('~\songs\song14.jpg'),os.path.join('~\songs\song15.jpg')]
 y = ['song','song','song','song','song']
 
 

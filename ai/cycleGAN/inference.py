@@ -11,7 +11,6 @@ import os
 from .model import CycleGAN
 from . import utils
 from ai.gpu_solve import *
-gpu_solve()
 
 
 FLAGS = tf.flags.FLAGS
@@ -51,12 +50,12 @@ def main(unused_argv):
 if __name__ == '__main__':
   tf.app.run()
 
-def test(model_name, input_image, output_name):
+def ganConvert(model_name, input_image, output_name):
+  gpu_solve()
   graph = tf.Graph()
 
   with graph.as_default():
     with tf.gfile.FastGFile(os.path.join('./media/cycleGAN/'+input_image), 'rb') as f:
-      print('imageOK')
       image_data = f.read()
       input_image = tf.image.decode_jpeg(image_data, channels=3)
       input_image = tf.image.resize_images(input_image, size=(256, 256))

@@ -1,0 +1,92 @@
+body {
+  font-family: "Noto Sans TC", sans-serif;
+  color: #5f7171!important;
+}
+
+
+.btn-main {
+  font-size: 20px;
+  width: 144px;
+  height: 44px;
+  border-radius: 80px;
+  border: transparent;
+  color: #5f7171;
+  background-color: #fff;
+  box-shadow: 0px 0px 6px #a3b9ba;
+  transition: all 0.25s;
+}
+
+.btn-main:hover {
+  background-color: #29b4be;
+  color: #fff;
+}
+
+.active > span{
+  background-color: #29b4be!important;
+}
+
+.main-title {
+  line-height: 56px;
+  font-size: 48px;
+  color: #29b4be;
+  font-weight: 700;
+}
+
+.main-color {
+  color: #29b4be !important;
+  border-color: #29b4be;
+}
+
+
+.pointer,
+.close-modal:hover {
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.secondary-title {
+  font-size: 30px;
+  color: #5f7171;
+  text-align: center;
+}
+
+.third-title {
+  font-size: 28px;
+  color: #5f7171;
+  text-align: center;
+}
+
+.content-color {
+  color: #5f7171;
+}
+
+.mt-20 {
+  margin-top: 20px !important;
+}
+
+.mt-10 {
+  margin-top: 10px !important;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.p-20 {
+  padding: 20px !important;
+}
+
+.p-10 {
+  padding: 10px !important;
+}

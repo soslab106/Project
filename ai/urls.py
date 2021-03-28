@@ -10,11 +10,13 @@ urlpatterns = [
     path('multi/', views.TestUploadView.as_view()),
     path('', views.FileView.as_view()),
     path('<int:pk>/', views.FileView.as_view()),
-<<<<<<< HEAD
     path('multi/', views.TestUploadView.as_view()),
     path('cycleGAN/', views.ganFileView.as_view()),
-=======
->>>>>>> 960b121867e6d75335b3fdb70d8d35c306a2bd4c
+    path('trans/', views.transFileView.as_view()),
+    path('load/', views.loadModelView.as_view()),
+    path('face_train/', views.FaceTrainView.as_view()),
+    path('face_train_join/', views.FaceTrainJoinView.as_view()),
+    path('face_join_test/', views.FaceJoinTestView.as_view()),
     # path('token/obtain/', GoogleLogin.as_view()),
     # path('token/refresh/', jwt_views.TokenRefreshView.as_view()), name='token_refresh'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

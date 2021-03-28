@@ -43,8 +43,16 @@ INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'ckeditor',
+    'ckeditor_uploader',
     'ai',
     'text',
+    'blog',
+    'comment',
+    'likes',
+    'read_statistic',
+    'user',
+    'course',
     'rest_framework',
     'rest_framework.authtoken',
     'allauth',
@@ -81,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'user.context_processors.login_modal_form',
             ],
         },
     },
@@ -144,13 +153,50 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS=(
-    os.path.join(BASE_DIR,'static'),
-)
+STATIC_ROOT = MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CKEDITOR_UPLOAD_PATH = 'ckupload/'
+CKEDITOR_CONFIGS = {
+    'default' :{},
+    'comment_ckeditor' : {
+        'toolbar': 'custom',
+        'toolbar_custom': [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ["TextColor", "BGColor", 'RemoveFormat'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ["Smiley", "SpecialChar", 'Blockquote'],
+        ],
+        'width': 'auto',
+        'height': '180',
+        'tabSpaces': 4,
+        'removePlugins': 'elementspath',
+        'resize_enabled': False,
+    },
+    'blog_ckeditor' : {
+        'toolbar': 'custom',
+        'toolbar_custom': [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ["TextColor", "BGColor", 'RemoveFormat'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ["Smiley", "SpecialChar", 'Blockquote'],
+        ],
+        'width': 'auto',
+        'height': '500',
+        'tabSpaces': 4,
+        'removePlugins': 'elementspath',
+        'resize_enabled': False,
+    }
+}
+
+LOGIN_URL = '/login/' # 預設 login page 的 url
+LOGIN_REDIRECT_URL = '/'  # login 完之後導向的頁面
+LOGOUT_REDIRECT_URL = '/' # logout 完之後導向的頁面
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -178,16 +224,23 @@ SIMPLE_JWT = {
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/'
+# 分頁數量參數
+EACH_PAGE_BLOGS_NUMBER = 5
+# 緩存設置
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
 
-LOGOUT_REDIRECT_URL = '/'
-
+# 發送郵件設置
+# https://docs.djangoproject.com/en/2.0/ref/settings/#email
+# https://docs.djangoproject.com/en/2.0/topics/email/
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#TLS Port
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'xxxx'
-#Application key
-EMAIL_HOST_PASSWORD = 'xxxx'
-
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'howailab106@gmail.com'
+EMAIL_HOST_PASSWORD = 'soslab106'  # 授權碼
+EMAIL_SUBJECT_PREFIX = '[HowAI 論壇] '
+EMAIL_USE_TLS = True  # 與SMTP伺服器通信時，是否啟動TLS連接(安全連接)

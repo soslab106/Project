@@ -21,24 +21,20 @@ from django.conf import settings
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import refresh_jwt_token
 from rest_framework_jwt.views import verify_jwt_token
-
+from . import views
 # from imgnet.views import *
 
 urlpatterns = [
+    path('', views.home, name = 'home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('yolo/', renderYolo),
-    # path('postCnnModels/', postCnnModels),
-    # path('postImgNet/', postImgNet),
-    path('', renderIndex),
-    path('VGG16/', renderVgg),
-    path('resNet101/', renderResNet),
-    path('facenet/', renderFacenet),
-    # path('faceRecog/', face_recog_test),
-    # path('face_recog_test/', face_recog_test),
-    # path('test/', renderTest),
+    path('ckeditor',include('ckeditor_uploader.urls')), #引入路徑
+    path('blog/', include('blog.urls')), #導入應用中設置的路徑
+    path('comment/',include('comment.urls')),
+    path('likes/',include('likes.urls')),
+    path('user/', include('user.urls')),
+    path('course/', include('course.urls')),
     path('upload/', include('ai.urls')),
-    path('login/', LoginPage.as_view(), name='login'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_jwt_token),
     path('api-token-refresh/', refresh_jwt_token),
@@ -48,6 +44,5 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.social.urls')),
     path('users/', UserList.as_view()),
-    #path('googleLogin/', include('ai.urls'))
     path('current_user/', current_user),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

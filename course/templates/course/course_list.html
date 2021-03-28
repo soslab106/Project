@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+<!-- 加載靜態文件 -->
+{% block titles %}
+    我的課程
+{% endblock %}
+{% block header_extends %}{% endblock %}
+{% block nav_course_active %}active{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+                {% if user.is_authenticated %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">課程列表</div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">課程名稱</th>
+                                    <th scope="col">開始日期</th>
+                                    <th scope="col">結束日期</th>
+                                    <th scope="col">授課老師</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for course in course_list %}
+                                    <tr>
+                                        <th scope="row"><a href="{% url 'course_detail' course.pk %}">{{ course.name }}</a></th>
+                                        <td>{{ course.start_time }}</td>
+                                        <td>{{ course.end_time }}</td>
+                                        <td>{{ course.teacher.get_nickname_or_username }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <div class="course">
+                                        <p>尚無課程</p>
+                                    </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% else %}
+                    <span>未登入，即將跳轉至首頁...</span>
+                    <script type="text/javascript">
+                    setTimeout("window.location.href = '/'", 1500);
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
