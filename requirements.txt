@@ -84,7 +84,7 @@ protobuf==3.12.2
 ptyprocess==0.6.0
 pycparser==2.20
 Pygments==2.6.1
-PyJWT==1.7.1
+PyJWT==2.4.0
 pyparsing==2.4.6
 pyrsistent==0.16.0
 python-datauri==0.2.8
